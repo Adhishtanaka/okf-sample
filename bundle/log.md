@@ -1,6 +1,15 @@
 # Log
 
-## 2026-07-05
+## 2026-07-05 (2)
+**Update:** Redesigned the schema to be a real relational model: split the flat
+`orders.amount_usd` into `products` + `order_items` tables (orders are now headers only,
+with a `status` of `completed`/`refunded`/`pending`), added a `customers` table, and added
+`policies/refund_policy.md` + `policies/shipping_policy.md`. `daily_revenue` now sums
+`order_items` for `completed` orders only. Added `tables/products_table.md` and
+`tables/order_items_table.md`. Introduced `api/queries.py` as the shared query layer for
+both the REST API and the MCP server.
+
+## 2026-07-05 (1)
 **Update:** Moved from documented-only concepts to a real running system: `orders`
 now lives in a local SQLite database (`ecom.db`), served by a read-only REST API and
 an MCP server that exposes this bundle plus live order lookups to MCP clients.
