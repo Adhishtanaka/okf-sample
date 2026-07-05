@@ -140,6 +140,6 @@ Or point an MCP client (Claude Desktop / Claude Code) at it directly, e.g. in
 It exposes:
 - **Resources** `okf://<path>` — one per bundle concept file (e.g. `okf://tables/orders_table.md`)
 - **Tool** `list_concepts(type=None)` — list bundle concepts, optionally filtered by type
-- **Tool** `get_order(order_id)` — order + customer + line items, from the live `ecom.db`
-- **Tool** `get_customer(customer_id)` — a real customer row
-- **Tool** `get_product(product_id)` — a real product row
+- **Tool** `list_orders()` / `get_order(order_id)` — orders (with customer + line items + total) from the live `ecom.db`
+- **Tool** `list_customers()` / `get_customer(customer_id)` — customer rows
+- **Tool** `list_products()` / `get_product(product_id)` — product catalog rows

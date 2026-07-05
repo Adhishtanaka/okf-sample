@@ -45,15 +45,33 @@ def list_concepts(type: str | None = None) -> list[dict]:
 
 
 @mcp.tool()
+def list_orders() -> list[dict]:
+    """List all orders (customer, status, total) from the live ecom.db."""
+    return queries.list_orders()
+
+
+@mcp.tool()
 def get_order(order_id: str) -> dict:
     """Look up a real order (customer, status, line items, total) from ecom.db."""
     return queries.get_order(order_id) or {"error": f"no order with id {order_id}"}
 
 
 @mcp.tool()
+def list_customers() -> list[dict]:
+    """List all customers from the live customers table (ecom.db)."""
+    return queries.list_customers()
+
+
+@mcp.tool()
 def get_customer(customer_id: str) -> dict:
     """Look up a real customer from the live customers table (ecom.db)."""
     return queries.get_customer(customer_id) or {"error": f"no customer with id {customer_id}"}
+
+
+@mcp.tool()
+def list_products() -> list[dict]:
+    """List all products in the catalog from the live products table (ecom.db)."""
+    return queries.list_products()
 
 
 @mcp.tool()
