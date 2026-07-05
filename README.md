@@ -10,6 +10,14 @@ relational SQLite database (customers, products, orders, order_items), a REST AP
 front of it, and an MCP server that lets any MCP client (like Claude Desktop or Claude
 Code) read the OKF bundle *and* query live data.
 
+## Proof it works from outside the project
+
+The `okf-sample` MCP server was registered at user scope (`claude mcp add okf-sample
+--scope user -- ...`), then queried from a Claude Code session in an unrelated directory
+with no filesystem access to this repo — every answer below came from the MCP tools alone:
+
+![Claude Code in another directory querying the okf-sample MCP server for the product catalog](docs/mcp-demo.png)
+
 ## Architecture
 
 ```mermaid
@@ -139,7 +147,10 @@ Or point an MCP client (Claude Desktop / Claude Code) at it directly, e.g. in
 
 It exposes:
 - **Resources** `okf://<path>` — one per bundle concept file (e.g. `okf://tables/orders_table.md`)
-- **Tool** `list_concepts(type=None)` — list bundle concepts, optionally filtered by type
+- **Tool** `list_concepts(type=None)` — list bundle concepts; each entry includes the exact
+  `resource_uri` to read (no need to guess the `okf://` scheme)
+- **Tool** `read_concept(path)` — read one concept's markdown directly; accepts the path
+  with or without `okf://`/a leading slash, so it works even if a client guesses the format
 - **Tool** `list_orders()` / `get_order(order_id)` — orders (with customer + line items + total) from the live `ecom.db`
 - **Tool** `list_customers()` / `get_customer(customer_id)` — customer rows
 - **Tool** `list_products()` / `get_product(product_id)` — product catalog rows

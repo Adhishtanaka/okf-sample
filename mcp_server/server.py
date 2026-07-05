@@ -36,12 +36,33 @@ for _rel_path, _meta in _concepts.items():
 
 @mcp.tool()
 def list_concepts(type: str | None = None) -> list[dict]:
-    """List OKF bundle concepts (path, type, title), optionally filtered by `type`."""
+    """List OKF bundle concepts, optionally filtered by `type`.
+
+    Each entry's `resource_uri` is the exact string to pass to a resource read
+    (e.g. "okf://tables/orders_table.md") — use it as-is, don't guess a path.
+    """
     return [
-        {"path": path, "type": meta["type"], "title": meta.get("title")}
+        {
+            "path": path,
+            "resource_uri": f"okf://{path.lstrip('/')}",
+            "type": meta["type"],
+            "title": meta.get("title"),
+        }
         for path, meta in _concepts.items()
         if type is None or meta["type"] == type
     ]
+
+
+@mcp.tool()
+def read_concept(path: str) -> str:
+    """Read one bundle concept's raw markdown by path — forgiving of format:
+    accepts "tables/orders_table.md", "/tables/orders_table.md", or
+    "okf://tables/orders_table.md" alike. Prefer this over guessing a resource URI.
+    """
+    key = "/" + path.removeprefix("okf://").lstrip("/")
+    if key not in _concepts:
+        return f"error: no concept at {path!r}. Call list_concepts() to see valid paths."
+    return (BUNDLE_ROOT / key.lstrip("/")).read_text()
 
 
 @mcp.tool()
