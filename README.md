@@ -16,7 +16,7 @@ The `okf-sample` MCP server was registered at user scope (`claude mcp add okf-sa
 --scope user -- ...`), then queried from a Claude Code session in an unrelated directory
 with no filesystem access to this repo — every answer below came from the MCP tools alone:
 
-![Claude Code in another directory querying the okf-sample MCP server for the product catalog](docs/mcp-demo.png)
+![Claude Code in another directory querying the okf-sample MCP server for the product catalog](docs/mcp-demo.gif)
 
 ## Architecture
 
